@@ -11,14 +11,6 @@ int mouse_y;
 
 star_t player;
 
-int get_texture_diam_by_mass(int mass)
-{
-	double r;
-
-	r = sqrt(mass/3.14);
-	return (int)(r * 2);
-}
-
 void blit(SDL_Texture *texture, int x, int y, int mass)
 {
 	SDL_Rect	dest;
@@ -44,8 +36,8 @@ int main(int argc, char **argv)
 
 	player.x = 1;
 	player.y = 1;
-	player.dx = 1;
-	player.dy = 1;
+	player.dx = 5;
+	player.dy = 5;
 	player.texture = loadTexture("player.png");
 
 	while (1) {

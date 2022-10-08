@@ -10,7 +10,9 @@
 
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH 1200
-#define DELAY_MS 16
+#define DELAY_MS 12
+#define MAX_X_POSITION SCREEN_WIDTH - 100
+#define MAX_Y_POSITION SCREEN_HEIGHT - 100
 
 typedef struct {
 	int x;
