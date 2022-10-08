@@ -1,6 +1,6 @@
 
 SRC = main.c init.c input.c logic.c
-PROG = agario 
+PROG = osmos 
 LDFLAGS  = `sdl2-config --libs` -lSDL2_image -lm  
 INCLUDE_FLAGS = -I.
 
