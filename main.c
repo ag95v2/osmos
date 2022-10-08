@@ -31,7 +31,7 @@ void blit(SDL_Texture *texture, int x, int y, int mass)
 	dest.w = texture_size;
 	dest.h = texture_size;
 	printf("Width: %d height: %d\n", dest.w, dest.h);
-	SDL_RenderCopy(renderer, texture, NULL, &dest); //NULL - copy the entire texture
+	SDL_RenderCopy(renderer, texture, NULL, &dest);
 }
 
 int main(int argc, char **argv)
