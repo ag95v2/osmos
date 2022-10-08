@@ -15,6 +15,8 @@
 typedef struct {
 	int x;
 	int y;
+	int dx;
+	int dy;
 	int mass; /* Reasonable values are between 20 and 200k */
 	SDL_Texture *texture;
 } star_t;

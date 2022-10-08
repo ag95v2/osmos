@@ -1,6 +1,7 @@
 #include "common.h"
 #include "init.h"
 #include "input.h"
+#include "logic.h"
 
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -43,12 +44,15 @@ int main(int argc, char **argv)
 
 	player.x = 1;
 	player.y = 1;
+	player.dx = 1;
+	player.dy = 1;
 	player.texture = loadTexture("player.png");
 
 	while (1) {
 		SDL_SetRenderDrawColor(renderer, 20, 0, 20, 0);
 		SDL_RenderClear(renderer); /* Clear screen with color */
 		handle_events();
+		move_star(&player);
 		blit(player.texture, player.x, player.y, mass);
 		SDL_Delay(DELAY_MS);
 		SDL_RenderPresent(renderer); /* Show all the stuff */
