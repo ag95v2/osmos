@@ -30,6 +30,7 @@ void blit(SDL_Texture *texture, int x, int y, int mass)
 int main(int argc, char **argv)
 {
 	int mass;
+	int frame = 0;
 
 	mass = atoi(argv[1]);
 	init_sdl();
@@ -48,6 +49,7 @@ int main(int argc, char **argv)
 		blit(player.texture, player.x, player.y, mass);
 		SDL_Delay(DELAY_MS);
 		SDL_RenderPresent(renderer); /* Show all the stuff */
+		frame++;
 	}
 	SDL_DestroyWindow(window);
 	SDL_Quit();
