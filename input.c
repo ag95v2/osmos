@@ -1,5 +1,14 @@
 #include "common.h"
 
+static void handle_keypress(SDL_KeyboardEvent *event)
+{
+	if (event->repeat == 0) {
+		if (event->keysym.scancode == SDL_SCANCODE_Q) {
+			exit(0);
+		}
+	}
+}
+
 void handle_events(void)
 {
 	SDL_Event event;
@@ -29,6 +38,9 @@ void handle_events(void)
 				if(event.button.button==SDL_BUTTON_LEFT){
 					printf("Mouse click\n");
 				}
+			case SDL_KEYDOWN:
+				handle_keypress(&event.key);
+				break;
 			default:
 				break;
 		}
