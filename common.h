@@ -23,6 +23,11 @@ typedef struct {
 	SDL_Texture *texture;
 } star_t;
 
+typedef struct starlist_s {
+	star_t star;
+	struct starlist_s *next;
+} starlist_t;
+
 extern SDL_Window *window;
 extern SDL_Renderer *renderer;
 
@@ -30,5 +35,6 @@ extern int mouse_x;
 extern int mouse_y;
 
 extern star_t player;
+extern starlist_t *stars;
 
 #endif
