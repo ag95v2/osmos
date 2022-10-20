@@ -40,11 +40,13 @@ void move_star(star_t *s)
 
 	texture_side = get_texture_diam_by_mass((int)s->mass);
 	/* Wall collisions */
-	if (s->x <= 0 || s->x + texture_side >= MAX_X_POSITION) {
+	if (s->x <= texture_side / 2 || s->x + texture_side / 2 >= MAX_X_POSITION) {
 		s->dx = s->dx * (-1);
+		s->x = (s->x <= texture_side / 2) ? texture_side / 2 : MAX_X_POSITION - texture_side / 2;
 	}
-	if (s->y <= 0 || s->y + texture_side >= MAX_Y_POSITION) {
+	if (s->y <= texture_side / 2 || s->y + texture_side / 2 >= MAX_Y_POSITION) {
 		s->dy = s->dy * (-1);
+		s->y = (s->y <= texture_side / 2) ? texture_side / 2 : MAX_Y_POSITION - texture_side / 2;
 	}
 	calculate_star_data(s);
 }
