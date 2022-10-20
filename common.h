@@ -14,12 +14,21 @@
 #define MAX_X_POSITION SCREEN_WIDTH - 100
 #define MAX_Y_POSITION SCREEN_HEIGHT - 100
 
+#define ACCELERAION_DROP_MASS_RATE 0.05
+#define ACCELERAION_MASS_SPEED 10.0
+#define ACCELERAION_MAGIC_CONSTANT 1.0
+
+#ifndef M_PI
+# define M_PI 3.141593
+#endif
+
 typedef struct {
-	int x;
-	int y;
-	int dx;
-	int dy;
-	int mass; /* Reasonable values are between 20 and 200k */
+	float x; /* Center */
+	float y;
+	float dx;
+	float dy;
+	float mass; /* Reasonable values are between 20 and 200k */
+	float radius;
 	SDL_Texture *texture;
 } star_t;
 
@@ -33,6 +42,8 @@ extern SDL_Renderer *renderer;
 
 extern int mouse_x;
 extern int mouse_y;
+
+extern int accelerate;
 
 extern star_t player;
 extern starlist_t *stars;

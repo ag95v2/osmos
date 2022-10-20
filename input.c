@@ -36,6 +36,7 @@ void handle_events(void)
 					;
 				}
 				if(event.button.button==SDL_BUTTON_LEFT){
+					accelerate = 1;
 					printf("Mouse click\n");
 				}
 			case SDL_KEYDOWN:

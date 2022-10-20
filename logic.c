@@ -8,7 +8,15 @@ int get_texture_diam_by_mass(int mass)
 	return (int)(r * 2);
 }
 
-void add_star(int x, int y,	int dx,	int dy,	int mass)
+void calculate_star_data(star_t *s)
+{
+	int diam;
+
+	diam = get_texture_diam_by_mass(s->mass);
+	s->radius = diam / 2;
+}
+
+void add_star(float x, float y,	float dx, float dy,	float mass)
 {
 	starlist_t *new;
 
@@ -30,7 +38,7 @@ void move_star(star_t *s)
 	s->x += s->dx;
 	s->y += s->dy;
 
-	texture_side = get_texture_diam_by_mass(s->mass);
+	texture_side = get_texture_diam_by_mass((int)s->mass);
 	/* Wall collisions */
 	if (s->x <= 0 || s->x + texture_side >= MAX_X_POSITION) {
 		s->dx = s->dx * (-1);
@@ -38,6 +46,7 @@ void move_star(star_t *s)
 	if (s->y <= 0 || s->y + texture_side >= MAX_Y_POSITION) {
 		s->dy = s->dy * (-1);
 	}
+	calculate_star_data(s);
 }
 
 void move_all_stars(void)
@@ -50,4 +59,37 @@ void move_all_stars(void)
 		move_star(&(current->star));
 		current = current->next;
 	}
+}
+
+void accelerate_player(void)
+{
+	float alpha;
+	float new_star_mass;
+	float new_star_diam;
+	float new_star_x;
+	float new_star_y;
+
+	new_star_mass = player.mass * ACCELERAION_DROP_MASS_RATE;
+	player.mass -= new_star_mass;
+	new_star_diam = get_texture_diam_by_mass(new_star_mass);
+	alpha = atanf((mouse_y - player.y) / (mouse_x - player.x));
+	
+	/* 
+	** alpha is in range [-pi/2 : pi/2] so we need adjustment
+	*/
+	if ((mouse_y - player.y >= 0) && (mouse_x - player.x <= 0)) {
+		alpha -= M_PI;
+	}
+	if ((mouse_y - player.y <= 0) && (mouse_x - player.x <= 0)) {
+		alpha -= M_PI;
+	}
+
+	new_star_x = (player.radius + new_star_diam / 2) * cosf(alpha) + player.x;
+	new_star_y = (player.radius + new_star_diam / 2) * sinf(alpha) + player.y;
+
+	add_star(new_star_x, new_star_y,
+			ACCELERAION_MASS_SPEED * cosf(alpha),
+			ACCELERAION_MASS_SPEED * sinf(alpha), new_star_mass);
+	player.dx -= ACCELERAION_MASS_SPEED * cosf(alpha) * ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
+	player.dy -= ACCELERAION_MASS_SPEED * sinf(alpha) * ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
 }
