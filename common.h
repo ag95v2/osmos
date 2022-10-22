@@ -22,14 +22,28 @@
 # define M_PI 3.141593
 #endif
 
+#define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
+
 typedef struct {
-	float x; /* Center */
-	float y;
-	float dx;
-	float dy;
-	float mass; /* Reasonable values are between 20 and 200k */
-	float radius;
+	double x;
+	double y;
+} point_t;
+
+typedef struct {
+	double x;
+	double y;
+	double r;
+} circle_t;
+
+typedef struct {
+	double x; /* Center */
+	double y;
+	double dx;
+	double dy;
+	double mass; /* Reasonable values are between 20 and 200k */
+	double radius;
 	SDL_Texture *texture;
+	int id;
 } star_t;
 
 typedef struct starlist_s {
@@ -44,6 +58,8 @@ extern int mouse_x;
 extern int mouse_y;
 
 extern int accelerate;
+
+extern int current_star_id;
 
 extern star_t player;
 extern starlist_t *stars;

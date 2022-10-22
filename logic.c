@@ -1,5 +1,32 @@
 #include "common.h"
 
+double circle_intersection_area(circle_t p1, circle_t p2) {
+	double d;
+	double a;
+	double b;
+	double x;
+	double y;
+	double z;
+
+	d = hypot(p2.x - p1.x, p2.y - p1.y);
+
+	if (d < p1.r + p2.r) {
+
+		a = p1.r * p1.r;
+		b = p2.r * p2.r;
+
+		x = (a - b + d * d) / (2 * d);
+		z = x * x;
+		y = sqrt(a - z);
+
+		if (d <= abs(p2.r - p1.r)) {
+			return (M_PI * MIN(a, b));
+		}
+		return (a * asin(y / p1.r) + b * asin(y / p2.r) - y * (x + sqrt(z + b - a)));
+	}
+	return (0);
+}
+
 int get_texture_diam_by_mass(int mass)
 {
 	double r;
@@ -16,7 +43,7 @@ void calculate_star_data(star_t *s)
 	s->radius = diam / 2;
 }
 
-void add_star(float x, float y,	float dx, float dy,	float mass)
+void add_star(double x, double y, double dx, double dy,	double mass)
 {
 	starlist_t *new;
 
@@ -27,6 +54,8 @@ void add_star(float x, float y,	float dx, float dy,	float mass)
 	new->star.dy = dy;
 	new->star.mass = mass;
 	new->star.texture = player.texture;
+	new->star.id = current_star_id;
+	current_star_id++;
 	new->next = stars;
 	stars = new;
 }
@@ -65,11 +94,11 @@ void move_all_stars(void)
 
 void accelerate_player(void)
 {
-	float alpha;
-	float new_star_mass;
-	float new_star_diam;
-	float new_star_x;
-	float new_star_y;
+	double alpha;
+	double new_star_mass;
+	double new_star_diam;
+	double new_star_x;
+	double new_star_y;
 
 	new_star_mass = player.mass * ACCELERAION_DROP_MASS_RATE;
 	player.mass -= new_star_mass;
@@ -94,4 +123,66 @@ void accelerate_player(void)
 			ACCELERAION_MASS_SPEED * sinf(alpha), new_star_mass);
 	player.dx -= ACCELERAION_MASS_SPEED * cosf(alpha) * ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
 	player.dy -= ACCELERAION_MASS_SPEED * sinf(alpha) * ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
+}
+
+void handle_collision(star_t *a, star_t *b)
+{
+	circle_t c1;
+	circle_t c2;
+	double area;
+
+	/* Avoid double handling */
+	if (a->id >= b->id) {
+		return ;
+	}
+	c1.x = a->x;
+	c1.y = a->y;
+	c2.x = b->x;
+	c2.y = b->y;
+	c1.r = a->radius;
+	c2.r = b->radius;
+	
+	area = circle_intersection_area(c1, c2);
+	if (area > 0) {
+		printf("Stars intersect: x1=%.2f y1=%.2f r1=%.2f x2=%.2f y2=%.2f r2=%.2f area=%.2f\n", 
+				a->x, a->y, a->radius,
+				b->x, b->y, b->radius,
+				area
+				);
+		if (a->radius >= b->radius) {
+			a->dx = (a->dx * a->mass + b->dx * area) / (a->mass + area);
+			a->dy = (a->dy * a->mass + b->dy * area) / (a->mass + area);
+			a->mass += area;
+			b->mass -= area;
+		}
+		else {
+			b->dx = (b->dx * b->mass + a->dx * area) / (b->mass + area);
+			b->dy = (b->dy * b->mass + a->dy * area) / (b->mass + area);
+			a->mass -= area;
+			b->mass += area;
+		}
+	}
+}
+
+void handle_collisions_of_star(star_t *s)
+{
+	starlist_t *current;
+
+	current = stars;
+	while (current) {
+		handle_collision(s, &(current->star));
+		current = current->next;
+	}
+}
+
+void handle_collisions(void)
+{
+	starlist_t *current;
+
+	handle_collisions_of_star(&player);
+	current = stars;
+	while (current) {
+		handle_collisions_of_star(&(current->star));
+		current = current->next;
+	}
 }
