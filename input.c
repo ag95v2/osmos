@@ -26,7 +26,8 @@ void handle_events(void)
 				break;
 			case SDL_MOUSEMOTION:
 				SDL_GetMouseState(&mouse_x, &mouse_y);
-				printf("Event number %d. Mouse state: %d %d\n", event_cnt, mouse_x, mouse_y);
+				printf("Event number %d. Mouse state: %d %d\n",
+						event_cnt, mouse_x, mouse_y);
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if(event.button.button == SDL_BUTTON_RIGHT){
@@ -35,7 +36,7 @@ void handle_events(void)
 				if(event.button.button == SDL_BUTTON_MIDDLE){
 					;
 				}
-				if(event.button.button==SDL_BUTTON_LEFT){
+				if(event.button.button == SDL_BUTTON_LEFT){
 					accelerate = 1;
 					printf("Mouse click\n");
 				}

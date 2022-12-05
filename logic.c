@@ -22,7 +22,8 @@ double circle_intersection_area(circle_t p1, circle_t p2) {
 		if (d <= abs(p2.r - p1.r)) {
 			return (M_PI * MIN(a, b));
 		}
-		return (a * asin(y / p1.r) + b * asin(y / p2.r) - y * (x + sqrt(z + b - a)));
+		return (a * asin(y / p1.r) + b * asin(y / p2.r)
+				- y * (x + sqrt(z + b - a)));
 	}
 	return (0);
 }
@@ -69,13 +70,17 @@ void move_star(star_t *s)
 
 	texture_side = get_texture_diam_by_mass((int)s->mass);
 	/* Wall collisions */
-	if (s->x <= texture_side / 2 || s->x + texture_side / 2 >= MAX_X_POSITION) {
+	if (s->x <= texture_side / 2 ||
+			s->x + texture_side / 2 >= MAX_X_POSITION) {
 		s->dx = s->dx * (-1);
-		s->x = (s->x <= texture_side / 2) ? texture_side / 2 : MAX_X_POSITION - texture_side / 2;
+		s->x = (s->x <= texture_side / 2) ?
+			texture_side / 2 : MAX_X_POSITION - texture_side / 2;
 	}
-	if (s->y <= texture_side / 2 || s->y + texture_side / 2 >= MAX_Y_POSITION) {
+	if (s->y <= texture_side / 2 ||
+			s->y + texture_side / 2 >= MAX_Y_POSITION) {
 		s->dy = s->dy * (-1);
-		s->y = (s->y <= texture_side / 2) ? texture_side / 2 : MAX_Y_POSITION - texture_side / 2;
+		s->y = (s->y <= texture_side / 2) ?
+			texture_side / 2 : MAX_Y_POSITION - texture_side / 2;
 	}
 	calculate_star_data(s);
 }
@@ -121,8 +126,10 @@ void accelerate_player(void)
 	add_star(new_star_x, new_star_y,
 			ACCELERAION_MASS_SPEED * cosf(alpha),
 			ACCELERAION_MASS_SPEED * sinf(alpha), new_star_mass);
-	player.dx -= ACCELERAION_MASS_SPEED * cosf(alpha) * ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
-	player.dy -= ACCELERAION_MASS_SPEED * sinf(alpha) * ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
+	player.dx -= ACCELERAION_MASS_SPEED * cosf(alpha) *
+		ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
+	player.dy -= ACCELERAION_MASS_SPEED * sinf(alpha) *
+		ACCELERAION_DROP_MASS_RATE * ACCELERAION_MAGIC_CONSTANT;
 }
 
 void handle_collision(star_t *a, star_t *b)
