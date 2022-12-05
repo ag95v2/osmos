@@ -37,6 +37,14 @@ int main(int argc, char **argv)
 	player.id = 0;
 
 	add_star(450,300,0,0,player.mass * 0.8);
+	add_star(550,300,0,0,player.mass * 0.8);
+	add_star(650,300,0,0,player.mass * 0.8);
+	add_star(750,300,0,0,player.mass * 0.8);
+	add_star(850,300,0,0,player.mass * 0.8);
+
+	add_star(350,900,0,0,player.mass * 2);
+	add_star(850,600,0,0,player.mass * 4);
+	add_star(550,700,0,0,player.mass * 3);
 
 	while (1) {
 		SDL_SetRenderDrawColor(renderer, 20, 0, 20, 0);
