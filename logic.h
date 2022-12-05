@@ -7,5 +7,6 @@ void move_star(star_t *star);
 void move_all_stars(void);
 void accelerate_player(void);
 void handle_collisions(void);
+void delete_small_stars(void);
 
 #endif

@@ -48,6 +48,7 @@ int main(int argc, char **argv)
 		}
 		move_all_stars();
 		handle_collisions();
+		delete_small_stars();
 		show_all_stars();
 		SDL_Delay(DELAY_MS);
 		SDL_RenderPresent(renderer); /* Show all the stuff */

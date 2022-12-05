@@ -186,3 +186,30 @@ void handle_collisions(void)
 		current = current->next;
 	}
 }
+
+void delete_small_stars(void)
+{
+	starlist_t *current;
+	starlist_t *prev;
+	starlist_t *tmp;
+	
+	current = stars;
+	prev = NULL;
+	while (current) {
+		if (current->star.mass < MIN_DISPLAYABLE_MASS) {
+			if (prev) {
+				prev->next = current->next;
+			}
+			else {
+				stars = current->next;
+			}
+			tmp = current;
+			free(current);
+			current = tmp->next;
+		}
+		else {
+			prev = current;
+			current = current->next;
+		}
+	}
+}

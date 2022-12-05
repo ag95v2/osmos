@@ -18,6 +18,8 @@
 #define ACCELERAION_MASS_SPEED 10.0
 #define ACCELERAION_MAGIC_CONSTANT 1.0
 
+#define MIN_DISPLAYABLE_MASS 20
+
 #ifndef M_PI
 # define M_PI 3.141593
 #endif
