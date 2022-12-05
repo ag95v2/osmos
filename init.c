@@ -23,7 +23,7 @@ void init_sdl()
 	}
 
 	window_flags = 0;
-	window = SDL_CreateWindow("Agario",
+	window = SDL_CreateWindow("Osmos",
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH,
